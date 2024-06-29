@@ -3,6 +3,7 @@
 package ent
 
 import (
+	"ent-atlas-test/ent/book"
 	"ent-atlas-test/ent/schema"
 	"ent-atlas-test/ent/user"
 )
@@ -11,6 +12,30 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	bookFields := schema.Book{}.Fields()
+	_ = bookFields
+	// bookDescTitle is the schema descriptor for title field.
+	bookDescTitle := bookFields[0].Descriptor()
+	// book.TitleValidator is a validator for the "title" field. It is called by the builders before save.
+	book.TitleValidator = func() func(string) error {
+		validators := bookDescTitle.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(title string) error {
+			for _, fn := range fns {
+				if err := fn(title); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// bookDescBody is the schema descriptor for body field.
+	bookDescBody := bookFields[1].Descriptor()
+	// book.BodyValidator is a validator for the "body" field. It is called by the builders before save.
+	book.BodyValidator = bookDescBody.Validators[0].(func(string) error)
 	userFields := schema.User{}.Fields()
 	_ = userFields
 	// userDescName is the schema descriptor for name field.
@@ -24,7 +49,7 @@ func init() {
 	// userDescAge is the schema descriptor for age field.
 	userDescAge := userFields[2].Descriptor()
 	// user.AgeValidator is a validator for the "age" field. It is called by the builders before save.
-	user.AgeValidator = userDescAge.Validators[0].(func(int) error)
+	user.AgeValidator = userDescAge.Validators[0].(func(int64) error)
 	// userDescEmail is the schema descriptor for email field.
 	userDescEmail := userFields[3].Descriptor()
 	// user.EmailValidator is a validator for the "email" field. It is called by the builders before save.

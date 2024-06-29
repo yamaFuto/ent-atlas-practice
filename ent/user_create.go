@@ -32,7 +32,7 @@ func (uc *UserCreate) SetDescription(s string) *UserCreate {
 }
 
 // SetAge sets the "age" field.
-func (uc *UserCreate) SetAge(i int) *UserCreate {
+func (uc *UserCreate) SetAge(i int64) *UserCreate {
 	uc.mutation.SetAge(i)
 	return uc
 }
@@ -144,7 +144,7 @@ func (uc *UserCreate) createSpec() (*User, *sqlgraph.CreateSpec) {
 		_node.Description = value
 	}
 	if value, ok := uc.mutation.Age(); ok {
-		_spec.SetField(user.FieldAge, field.TypeInt, value)
+		_spec.SetField(user.FieldAge, field.TypeInt64, value)
 		_node.Age = value
 	}
 	if value, ok := uc.mutation.Email(); ok {

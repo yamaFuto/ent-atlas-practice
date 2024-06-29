@@ -56,14 +56,14 @@ func (uu *UserUpdate) SetNillableDescription(s *string) *UserUpdate {
 }
 
 // SetAge sets the "age" field.
-func (uu *UserUpdate) SetAge(i int) *UserUpdate {
+func (uu *UserUpdate) SetAge(i int64) *UserUpdate {
 	uu.mutation.ResetAge()
 	uu.mutation.SetAge(i)
 	return uu
 }
 
 // SetNillableAge sets the "age" field if the given value is not nil.
-func (uu *UserUpdate) SetNillableAge(i *int) *UserUpdate {
+func (uu *UserUpdate) SetNillableAge(i *int64) *UserUpdate {
 	if i != nil {
 		uu.SetAge(*i)
 	}
@@ -71,7 +71,7 @@ func (uu *UserUpdate) SetNillableAge(i *int) *UserUpdate {
 }
 
 // AddAge adds i to the "age" field.
-func (uu *UserUpdate) AddAge(i int) *UserUpdate {
+func (uu *UserUpdate) AddAge(i int64) *UserUpdate {
 	uu.mutation.AddAge(i)
 	return uu
 }
@@ -166,10 +166,10 @@ func (uu *UserUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.SetField(user.FieldDescription, field.TypeString, value)
 	}
 	if value, ok := uu.mutation.Age(); ok {
-		_spec.SetField(user.FieldAge, field.TypeInt, value)
+		_spec.SetField(user.FieldAge, field.TypeInt64, value)
 	}
 	if value, ok := uu.mutation.AddedAge(); ok {
-		_spec.AddField(user.FieldAge, field.TypeInt, value)
+		_spec.AddField(user.FieldAge, field.TypeInt64, value)
 	}
 	if value, ok := uu.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)
@@ -223,14 +223,14 @@ func (uuo *UserUpdateOne) SetNillableDescription(s *string) *UserUpdateOne {
 }
 
 // SetAge sets the "age" field.
-func (uuo *UserUpdateOne) SetAge(i int) *UserUpdateOne {
+func (uuo *UserUpdateOne) SetAge(i int64) *UserUpdateOne {
 	uuo.mutation.ResetAge()
 	uuo.mutation.SetAge(i)
 	return uuo
 }
 
 // SetNillableAge sets the "age" field if the given value is not nil.
-func (uuo *UserUpdateOne) SetNillableAge(i *int) *UserUpdateOne {
+func (uuo *UserUpdateOne) SetNillableAge(i *int64) *UserUpdateOne {
 	if i != nil {
 		uuo.SetAge(*i)
 	}
@@ -238,7 +238,7 @@ func (uuo *UserUpdateOne) SetNillableAge(i *int) *UserUpdateOne {
 }
 
 // AddAge adds i to the "age" field.
-func (uuo *UserUpdateOne) AddAge(i int) *UserUpdateOne {
+func (uuo *UserUpdateOne) AddAge(i int64) *UserUpdateOne {
 	uuo.mutation.AddAge(i)
 	return uuo
 }
@@ -363,10 +363,10 @@ func (uuo *UserUpdateOne) sqlSave(ctx context.Context) (_node *User, err error) 
 		_spec.SetField(user.FieldDescription, field.TypeString, value)
 	}
 	if value, ok := uuo.mutation.Age(); ok {
-		_spec.SetField(user.FieldAge, field.TypeInt, value)
+		_spec.SetField(user.FieldAge, field.TypeInt64, value)
 	}
 	if value, ok := uuo.mutation.AddedAge(); ok {
-		_spec.AddField(user.FieldAge, field.TypeInt, value)
+		_spec.AddField(user.FieldAge, field.TypeInt64, value)
 	}
 	if value, ok := uuo.mutation.Email(); ok {
 		_spec.SetField(user.FieldEmail, field.TypeString, value)

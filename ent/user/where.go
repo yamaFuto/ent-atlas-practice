@@ -64,7 +64,7 @@ func Description(v string) predicate.User {
 }
 
 // Age applies equality check predicate on the "age" field. It's identical to AgeEQ.
-func Age(v int) predicate.User {
+func Age(v int64) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldAge, v))
 }
 
@@ -204,42 +204,42 @@ func DescriptionContainsFold(v string) predicate.User {
 }
 
 // AgeEQ applies the EQ predicate on the "age" field.
-func AgeEQ(v int) predicate.User {
+func AgeEQ(v int64) predicate.User {
 	return predicate.User(sql.FieldEQ(FieldAge, v))
 }
 
 // AgeNEQ applies the NEQ predicate on the "age" field.
-func AgeNEQ(v int) predicate.User {
+func AgeNEQ(v int64) predicate.User {
 	return predicate.User(sql.FieldNEQ(FieldAge, v))
 }
 
 // AgeIn applies the In predicate on the "age" field.
-func AgeIn(vs ...int) predicate.User {
+func AgeIn(vs ...int64) predicate.User {
 	return predicate.User(sql.FieldIn(FieldAge, vs...))
 }
 
 // AgeNotIn applies the NotIn predicate on the "age" field.
-func AgeNotIn(vs ...int) predicate.User {
+func AgeNotIn(vs ...int64) predicate.User {
 	return predicate.User(sql.FieldNotIn(FieldAge, vs...))
 }
 
 // AgeGT applies the GT predicate on the "age" field.
-func AgeGT(v int) predicate.User {
+func AgeGT(v int64) predicate.User {
 	return predicate.User(sql.FieldGT(FieldAge, v))
 }
 
 // AgeGTE applies the GTE predicate on the "age" field.
-func AgeGTE(v int) predicate.User {
+func AgeGTE(v int64) predicate.User {
 	return predicate.User(sql.FieldGTE(FieldAge, v))
 }
 
 // AgeLT applies the LT predicate on the "age" field.
-func AgeLT(v int) predicate.User {
+func AgeLT(v int64) predicate.User {
 	return predicate.User(sql.FieldLT(FieldAge, v))
 }
 
 // AgeLTE applies the LTE predicate on the "age" field.
-func AgeLTE(v int) predicate.User {
+func AgeLTE(v int64) predicate.User {
 	return predicate.User(sql.FieldLTE(FieldAge, v))
 }
 

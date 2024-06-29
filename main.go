@@ -54,4 +54,14 @@ func main() {
         log.Fatalf("failed creating user: %v", err)
     }
     log.Printf("user was created: %v", user)
+
+    book, err := ent_client.Book.
+        Create().
+        SetTitle("Harry Potter").
+        SetBody("it's a wizard world!!").
+        Save(context.Background())
+    if err != nil {
+        log.Fatalf("failed creating user: %v", err)
+    }
+    log.Printf("book was created: %v", book)
 }

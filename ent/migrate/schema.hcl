@@ -36,11 +36,14 @@ table "books" {
   schema = schema.public
   column "id" {
     null = false
-    type = int
+    type = bigint
+    identity {
+      generated = BY_DEFAULT
+    }
   }
   column "title" {
     null = true
-    type = varchar(100)
+    type = varchar
   }
   column "body" {
     null = true

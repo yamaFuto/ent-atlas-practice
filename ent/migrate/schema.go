@@ -8,12 +8,24 @@ import (
 )
 
 var (
+	// BooksColumns holds the columns for the "books" table.
+	BooksColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "title", Type: field.TypeString, Size: 100},
+		{Name: "body", Type: field.TypeString, Size: 2147483647},
+	}
+	// BooksTable holds the schema information for the "books" table.
+	BooksTable = &schema.Table{
+		Name:       "books",
+		Columns:    BooksColumns,
+		PrimaryKey: []*schema.Column{BooksColumns[0]},
+	}
 	// UsersColumns holds the columns for the "users" table.
 	UsersColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "description", Type: field.TypeString},
-		{Name: "age", Type: field.TypeInt},
+		{Name: "age", Type: field.TypeInt64},
 		{Name: "email", Type: field.TypeString, Unique: true},
 	}
 	// UsersTable holds the schema information for the "users" table.
@@ -24,6 +36,7 @@ var (
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
+		BooksTable,
 		UsersTable,
 	}
 )

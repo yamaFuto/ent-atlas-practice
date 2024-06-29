@@ -21,7 +21,7 @@ type User struct {
 	// Description holds the value of the "description" field.
 	Description string `json:"description,omitempty"`
 	// Age holds the value of the "age" field.
-	Age int `json:"age,omitempty"`
+	Age int64 `json:"age,omitempty"`
 	// Email holds the value of the "email" field.
 	Email        string `json:"email,omitempty"`
 	selectValues sql.SelectValues
@@ -73,7 +73,7 @@ func (u *User) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field age", values[i])
 			} else if value.Valid {
-				u.Age = int(value.Int64)
+				u.Age = value.Int64
 			}
 		case user.FieldEmail:
 			if value, ok := values[i].(*sql.NullString); !ok {

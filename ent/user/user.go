@@ -48,7 +48,7 @@ var (
 	// DescriptionValidator is a validator for the "description" field. It is called by the builders before save.
 	DescriptionValidator func(string) error
 	// AgeValidator is a validator for the "age" field. It is called by the builders before save.
-	AgeValidator func(int) error
+	AgeValidator func(int64) error
 	// EmailValidator is a validator for the "email" field. It is called by the builders before save.
 	EmailValidator func(string) error
 )

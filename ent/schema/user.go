@@ -21,7 +21,7 @@ func (User) Fields() []ent.Field {
 			NotEmpty(),
 		field.String("description").
 			NotEmpty(),
-		field.Int("age").
+		field.Int64("age").
 			Positive(),
 		field.String("email").
 			NotEmpty().
