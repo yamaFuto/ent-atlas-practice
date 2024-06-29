@@ -6,7 +6,7 @@ import (
     "log"
 
     "ent-atlas-test/ent"
-		"ent-atlas-test/ent/migrate"
+	"ent-atlas-test/ent/migrate"
 
     "entgo.io/ent/dialect"
     entsql "entgo.io/ent/dialect/sql"
