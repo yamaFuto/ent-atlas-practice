@@ -12,6 +12,8 @@ import (
     entsql "entgo.io/ent/dialect/sql"
     _ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/lib/pq"
+
+    "github.com/bxcodec/faker/v3"
 )
 
 // Open new connection
@@ -45,10 +47,10 @@ func main() {
     // Create a new user
     user, err := ent_client.User.
         Create().
-        SetName("John Doe").
+        SetName(faker.Name()).
         SetAge(30).
-        SetEmail("test@example.com").
-        SetDescription("A short description about John Doe."). // Descriptionフィールドの設定
+        SetEmail(faker.Email()).
+        SetDescription(faker.Sentence()). // Descriptionフィールドの設定
         Save(context.Background())
     if err != nil {
         log.Fatalf("failed creating user: %v", err)

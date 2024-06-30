@@ -5,6 +5,7 @@ go 1.21
 require (
 	entgo.io/ent v0.13.1
 	github.com/asaskevich/govalidator v0.0.0-20230301143203-a9d515a09cc2
+	github.com/bxcodec/faker/v3 v3.8.1
 	github.com/jackc/pgx/v5 v5.6.0
 	github.com/lib/pq v1.10.9
 )
@@ -27,5 +28,4 @@ require (
 	golang.org/x/mod v0.15.0 // indirect
 	golang.org/x/sync v0.6.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	golang.org/x/tools v0.18.0 // indirect
 )
