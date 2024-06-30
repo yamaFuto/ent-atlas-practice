@@ -51,17 +51,18 @@ func main() {
         SetAge(30).
         SetEmail(faker.Email()).
         SetDescription(faker.Sentence()). // Descriptionフィールドの設定
-        Save(context.Background())
+        Save(ctx)
     if err != nil {
         log.Fatalf("failed creating user: %v", err)
     }
     log.Printf("user was created: %v", user)
 
+    // Create a new book
     book, err := ent_client.Book.
         Create().
         SetTitle("Harry Potter").
         SetBody("it's a wizard world!!").
-        Save(context.Background())
+        Save(ctx)
     if err != nil {
         log.Fatalf("failed creating user: %v", err)
     }
