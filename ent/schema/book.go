@@ -14,10 +14,10 @@ type Book struct {
 func (Book) Fields() []ent.Field {
 	return []ent.Field{
 		field.String("title").
-					MaxLen(100).
-				  NotEmpty(),
+			MaxLen(100).
+			NotEmpty(),
 		field.Text("body").
-			    NotEmpty(),
+			NotEmpty(),
 	}
 }
 

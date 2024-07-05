@@ -6,7 +6,6 @@ import (
 	"entgo.io/ent"
 	"entgo.io/ent/schema/field"
 	"github.com/asaskevich/govalidator"
-	
 )
 
 // User holds the schema definition for the User entity.

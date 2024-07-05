@@ -1,70 +1,70 @@
 package main
 
 import (
-    "context"
-    "database/sql"
-    "log"
+	"context"
+	"database/sql"
+	"log"
 
-    "ent-atlas-test/ent"
+	"ent-atlas-test/ent"
 	"ent-atlas-test/ent/migrate"
 
-    "entgo.io/ent/dialect"
-    entsql "entgo.io/ent/dialect/sql"
-    _ "github.com/jackc/pgx/v5/stdlib"
+	"entgo.io/ent/dialect"
+	entsql "entgo.io/ent/dialect/sql"
+	_ "github.com/jackc/pgx/v5/stdlib"
 	_ "github.com/lib/pq"
 
-    "github.com/bxcodec/faker/v3"
+	"github.com/bxcodec/faker/v3"
 )
 
 // Open new connection
 func Open(databaseUrl string) *ent.Client {
-    db, err := sql.Open("pgx", databaseUrl)
-    if err != nil {
-        log.Fatal(err)
-    }
+	db, err := sql.Open("pgx", databaseUrl)
+	if err != nil {
+		log.Fatal(err)
+	}
 
-    // Create an ent.Driver from `db`.
-    drv := entsql.OpenDB(dialect.Postgres, db)
-    return ent.NewClient(ent.Driver(drv))
+	// Create an ent.Driver from `db`.
+	drv := entsql.OpenDB(dialect.Postgres, db)
+	return ent.NewClient(ent.Driver(drv))
 }
 
 func main() {
-    dns := "host=localhost port=5432 user=postgres password=postgres dbname=ent-atlas-test sslmode=disable timezone=UTC connect_timeout=5"
-    ctx := context.Background()
+	dns := "host=localhost port=5432 user=postgres password=postgres dbname=ent-atlas-test sslmode=disable timezone=UTC connect_timeout=5"
+	ctx := context.Background()
 
-    // refresh migration
-    ent_client := Open(dns)
+	// refresh migration
+	ent_client := Open(dns)
 
-    defer ent_client.Close()
-    
-    // Run migration
-    if err := ent_client.Schema.Create(ctx, migrate.WithDropIndex(true)); err != nil {
-        log.Fatalf("failed creating schema resources: %v", err)
-    }
+	defer ent_client.Close()
 
-    log.Println("migration successful")
+	// Run migration
+	if err := ent_client.Schema.Create(ctx, migrate.WithDropIndex(true)); err != nil {
+		log.Fatalf("failed creating schema resources: %v", err)
+	}
 
-    // Create a new user
-    user, err := ent_client.User.
-        Create().
-        SetName(faker.Name()).
-        SetAge(30).
-        SetEmail(faker.Email()).
-        SetDescription(faker.Sentence()). // Descriptionフィールドの設定
-        Save(ctx)
-    if err != nil {
-        log.Fatalf("failed creating user: %v", err)
-    }
-    log.Printf("user was created: %v", user)
+	log.Println("migration successful")
 
-    // Create a new book
-    book, err := ent_client.Book.
-        Create().
-        SetTitle("Harry Potter").
-        SetBody("it's a wizard world!!").
-        Save(ctx)
-    if err != nil {
-        log.Fatalf("failed creating user: %v", err)
-    }
-    log.Printf("book was created: %v", book)
+	// Create a new user
+	user, err := ent_client.User.
+		Create().
+		SetName(faker.Name()).
+		SetAge(30).
+		SetEmail(faker.Email()).
+		SetDescription(faker.Sentence()). // Descriptionフィールドの設定
+		Save(ctx)
+	if err != nil {
+		log.Fatalf("failed creating user: %v", err)
+	}
+	log.Printf("user was created: %v", user)
+
+	// Create a new book
+	book, err := ent_client.Book.
+		Create().
+		SetTitle("Harry Potter").
+		SetBody("it's a wizard world!!").
+		Save(ctx)
+	if err != nil {
+		log.Fatalf("failed creating user: %v", err)
+	}
+	log.Printf("book was created: %v", book)
 }
