@@ -36,6 +36,14 @@ func init() {
 	bookDescBody := bookFields[1].Descriptor()
 	// book.BodyValidator is a validator for the "body" field. It is called by the builders before save.
 	book.BodyValidator = bookDescBody.Validators[0].(func(string) error)
+	// bookDescPrice is the schema descriptor for price field.
+	bookDescPrice := bookFields[2].Descriptor()
+	// book.PriceValidator is a validator for the "price" field. It is called by the builders before save.
+	book.PriceValidator = bookDescPrice.Validators[0].(func(int) error)
+	// bookDescThoughts is the schema descriptor for thoughts field.
+	bookDescThoughts := bookFields[3].Descriptor()
+	// book.ThoughtsValidator is a validator for the "thoughts" field. It is called by the builders before save.
+	book.ThoughtsValidator = bookDescThoughts.Validators[0].(func(string) error)
 	userFields := schema.User{}.Fields()
 	_ = userFields
 	// userDescName is the schema descriptor for name field.

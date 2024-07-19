@@ -19,7 +19,11 @@ type Book struct {
 	// Title holds the value of the "title" field.
 	Title string `json:"title,omitempty"`
 	// Body holds the value of the "body" field.
-	Body         string `json:"body,omitempty"`
+	Body string `json:"body,omitempty"`
+	// Price holds the value of the "price" field.
+	Price int `json:"price,omitempty"`
+	// Thoughts holds the value of the "thoughts" field.
+	Thoughts     string `json:"thoughts,omitempty"`
 	selectValues sql.SelectValues
 }
 
@@ -28,9 +32,9 @@ func (*Book) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case book.FieldID:
+		case book.FieldID, book.FieldPrice:
 			values[i] = new(sql.NullInt64)
-		case book.FieldTitle, book.FieldBody:
+		case book.FieldTitle, book.FieldBody, book.FieldThoughts:
 			values[i] = new(sql.NullString)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -64,6 +68,18 @@ func (b *Book) assignValues(columns []string, values []any) error {
 				return fmt.Errorf("unexpected type %T for field body", values[i])
 			} else if value.Valid {
 				b.Body = value.String
+			}
+		case book.FieldPrice:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field price", values[i])
+			} else if value.Valid {
+				b.Price = int(value.Int64)
+			}
+		case book.FieldThoughts:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field thoughts", values[i])
+			} else if value.Valid {
+				b.Thoughts = value.String
 			}
 		default:
 			b.selectValues.Set(columns[i], values[i])
@@ -106,6 +122,12 @@ func (b *Book) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("body=")
 	builder.WriteString(b.Body)
+	builder.WriteString(", ")
+	builder.WriteString("price=")
+	builder.WriteString(fmt.Sprintf("%v", b.Price))
+	builder.WriteString(", ")
+	builder.WriteString("thoughts=")
+	builder.WriteString(b.Thoughts)
 	builder.WriteByte(')')
 	return builder.String()
 }

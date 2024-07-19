@@ -62,6 +62,8 @@ func main() {
 		Create().
 		SetTitle("Harry Potter").
 		SetBody("it's a wizard world!!").
+		SetPrice(300).
+		SetThoughts("nice").
 		Save(ctx)
 	if err != nil {
 		log.Fatalf("failed creating user: %v", err)

@@ -55,6 +55,41 @@ func (bu *BookUpdate) SetNillableBody(s *string) *BookUpdate {
 	return bu
 }
 
+// SetPrice sets the "price" field.
+func (bu *BookUpdate) SetPrice(i int) *BookUpdate {
+	bu.mutation.ResetPrice()
+	bu.mutation.SetPrice(i)
+	return bu
+}
+
+// SetNillablePrice sets the "price" field if the given value is not nil.
+func (bu *BookUpdate) SetNillablePrice(i *int) *BookUpdate {
+	if i != nil {
+		bu.SetPrice(*i)
+	}
+	return bu
+}
+
+// AddPrice adds i to the "price" field.
+func (bu *BookUpdate) AddPrice(i int) *BookUpdate {
+	bu.mutation.AddPrice(i)
+	return bu
+}
+
+// SetThoughts sets the "thoughts" field.
+func (bu *BookUpdate) SetThoughts(s string) *BookUpdate {
+	bu.mutation.SetThoughts(s)
+	return bu
+}
+
+// SetNillableThoughts sets the "thoughts" field if the given value is not nil.
+func (bu *BookUpdate) SetNillableThoughts(s *string) *BookUpdate {
+	if s != nil {
+		bu.SetThoughts(*s)
+	}
+	return bu
+}
+
 // Mutation returns the BookMutation object of the builder.
 func (bu *BookUpdate) Mutation() *BookMutation {
 	return bu.mutation
@@ -99,6 +134,16 @@ func (bu *BookUpdate) check() error {
 			return &ValidationError{Name: "body", err: fmt.Errorf(`ent: validator failed for field "Book.body": %w`, err)}
 		}
 	}
+	if v, ok := bu.mutation.Price(); ok {
+		if err := book.PriceValidator(v); err != nil {
+			return &ValidationError{Name: "price", err: fmt.Errorf(`ent: validator failed for field "Book.price": %w`, err)}
+		}
+	}
+	if v, ok := bu.mutation.Thoughts(); ok {
+		if err := book.ThoughtsValidator(v); err != nil {
+			return &ValidationError{Name: "thoughts", err: fmt.Errorf(`ent: validator failed for field "Book.thoughts": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -119,6 +164,15 @@ func (bu *BookUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := bu.mutation.Body(); ok {
 		_spec.SetField(book.FieldBody, field.TypeString, value)
+	}
+	if value, ok := bu.mutation.Price(); ok {
+		_spec.SetField(book.FieldPrice, field.TypeInt, value)
+	}
+	if value, ok := bu.mutation.AddedPrice(); ok {
+		_spec.AddField(book.FieldPrice, field.TypeInt, value)
+	}
+	if value, ok := bu.mutation.Thoughts(); ok {
+		_spec.SetField(book.FieldThoughts, field.TypeString, value)
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, bu.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -164,6 +218,41 @@ func (buo *BookUpdateOne) SetBody(s string) *BookUpdateOne {
 func (buo *BookUpdateOne) SetNillableBody(s *string) *BookUpdateOne {
 	if s != nil {
 		buo.SetBody(*s)
+	}
+	return buo
+}
+
+// SetPrice sets the "price" field.
+func (buo *BookUpdateOne) SetPrice(i int) *BookUpdateOne {
+	buo.mutation.ResetPrice()
+	buo.mutation.SetPrice(i)
+	return buo
+}
+
+// SetNillablePrice sets the "price" field if the given value is not nil.
+func (buo *BookUpdateOne) SetNillablePrice(i *int) *BookUpdateOne {
+	if i != nil {
+		buo.SetPrice(*i)
+	}
+	return buo
+}
+
+// AddPrice adds i to the "price" field.
+func (buo *BookUpdateOne) AddPrice(i int) *BookUpdateOne {
+	buo.mutation.AddPrice(i)
+	return buo
+}
+
+// SetThoughts sets the "thoughts" field.
+func (buo *BookUpdateOne) SetThoughts(s string) *BookUpdateOne {
+	buo.mutation.SetThoughts(s)
+	return buo
+}
+
+// SetNillableThoughts sets the "thoughts" field if the given value is not nil.
+func (buo *BookUpdateOne) SetNillableThoughts(s *string) *BookUpdateOne {
+	if s != nil {
+		buo.SetThoughts(*s)
 	}
 	return buo
 }
@@ -225,6 +314,16 @@ func (buo *BookUpdateOne) check() error {
 			return &ValidationError{Name: "body", err: fmt.Errorf(`ent: validator failed for field "Book.body": %w`, err)}
 		}
 	}
+	if v, ok := buo.mutation.Price(); ok {
+		if err := book.PriceValidator(v); err != nil {
+			return &ValidationError{Name: "price", err: fmt.Errorf(`ent: validator failed for field "Book.price": %w`, err)}
+		}
+	}
+	if v, ok := buo.mutation.Thoughts(); ok {
+		if err := book.ThoughtsValidator(v); err != nil {
+			return &ValidationError{Name: "thoughts", err: fmt.Errorf(`ent: validator failed for field "Book.thoughts": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -262,6 +361,15 @@ func (buo *BookUpdateOne) sqlSave(ctx context.Context) (_node *Book, err error) 
 	}
 	if value, ok := buo.mutation.Body(); ok {
 		_spec.SetField(book.FieldBody, field.TypeString, value)
+	}
+	if value, ok := buo.mutation.Price(); ok {
+		_spec.SetField(book.FieldPrice, field.TypeInt, value)
+	}
+	if value, ok := buo.mutation.AddedPrice(); ok {
+		_spec.AddField(book.FieldPrice, field.TypeInt, value)
+	}
+	if value, ok := buo.mutation.Thoughts(); ok {
+		_spec.SetField(book.FieldThoughts, field.TypeString, value)
 	}
 	_node = &Book{config: buo.config}
 	_spec.Assign = _node.assignValues

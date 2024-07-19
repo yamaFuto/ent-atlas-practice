@@ -18,6 +18,10 @@ func (Book) Fields() []ent.Field {
 			NotEmpty(),
 		field.Text("body").
 			NotEmpty(),
+		field.Int("price").
+			Positive(),
+		field.Text("thoughts").
+			NotEmpty(),
 	}
 }
 

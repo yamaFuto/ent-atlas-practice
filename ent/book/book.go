@@ -15,6 +15,10 @@ const (
 	FieldTitle = "title"
 	// FieldBody holds the string denoting the body field in the database.
 	FieldBody = "body"
+	// FieldPrice holds the string denoting the price field in the database.
+	FieldPrice = "price"
+	// FieldThoughts holds the string denoting the thoughts field in the database.
+	FieldThoughts = "thoughts"
 	// Table holds the table name of the book in the database.
 	Table = "books"
 )
@@ -24,6 +28,8 @@ var Columns = []string{
 	FieldID,
 	FieldTitle,
 	FieldBody,
+	FieldPrice,
+	FieldThoughts,
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).
@@ -41,6 +47,10 @@ var (
 	TitleValidator func(string) error
 	// BodyValidator is a validator for the "body" field. It is called by the builders before save.
 	BodyValidator func(string) error
+	// PriceValidator is a validator for the "price" field. It is called by the builders before save.
+	PriceValidator func(int) error
+	// ThoughtsValidator is a validator for the "thoughts" field. It is called by the builders before save.
+	ThoughtsValidator func(string) error
 )
 
 // OrderOption defines the ordering options for the Book queries.
@@ -59,4 +69,14 @@ func ByTitle(opts ...sql.OrderTermOption) OrderOption {
 // ByBody orders the results by the body field.
 func ByBody(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldBody, opts...).ToFunc()
+}
+
+// ByPrice orders the results by the price field.
+func ByPrice(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldPrice, opts...).ToFunc()
+}
+
+// ByThoughts orders the results by the thoughts field.
+func ByThoughts(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldThoughts, opts...).ToFunc()
 }

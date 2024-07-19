@@ -36,6 +36,9 @@ type BookMutation struct {
 	id            *int
 	title         *string
 	body          *string
+	price         *int
+	addprice      *int
+	thoughts      *string
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*Book, error)
@@ -212,6 +215,98 @@ func (m *BookMutation) ResetBody() {
 	m.body = nil
 }
 
+// SetPrice sets the "price" field.
+func (m *BookMutation) SetPrice(i int) {
+	m.price = &i
+	m.addprice = nil
+}
+
+// Price returns the value of the "price" field in the mutation.
+func (m *BookMutation) Price() (r int, exists bool) {
+	v := m.price
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldPrice returns the old "price" field's value of the Book entity.
+// If the Book object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BookMutation) OldPrice(ctx context.Context) (v int, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldPrice is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldPrice requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldPrice: %w", err)
+	}
+	return oldValue.Price, nil
+}
+
+// AddPrice adds i to the "price" field.
+func (m *BookMutation) AddPrice(i int) {
+	if m.addprice != nil {
+		*m.addprice += i
+	} else {
+		m.addprice = &i
+	}
+}
+
+// AddedPrice returns the value that was added to the "price" field in this mutation.
+func (m *BookMutation) AddedPrice() (r int, exists bool) {
+	v := m.addprice
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetPrice resets all changes to the "price" field.
+func (m *BookMutation) ResetPrice() {
+	m.price = nil
+	m.addprice = nil
+}
+
+// SetThoughts sets the "thoughts" field.
+func (m *BookMutation) SetThoughts(s string) {
+	m.thoughts = &s
+}
+
+// Thoughts returns the value of the "thoughts" field in the mutation.
+func (m *BookMutation) Thoughts() (r string, exists bool) {
+	v := m.thoughts
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldThoughts returns the old "thoughts" field's value of the Book entity.
+// If the Book object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *BookMutation) OldThoughts(ctx context.Context) (v string, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldThoughts is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldThoughts requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldThoughts: %w", err)
+	}
+	return oldValue.Thoughts, nil
+}
+
+// ResetThoughts resets all changes to the "thoughts" field.
+func (m *BookMutation) ResetThoughts() {
+	m.thoughts = nil
+}
+
 // Where appends a list predicates to the BookMutation builder.
 func (m *BookMutation) Where(ps ...predicate.Book) {
 	m.predicates = append(m.predicates, ps...)
@@ -246,12 +341,18 @@ func (m *BookMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *BookMutation) Fields() []string {
-	fields := make([]string, 0, 2)
+	fields := make([]string, 0, 4)
 	if m.title != nil {
 		fields = append(fields, book.FieldTitle)
 	}
 	if m.body != nil {
 		fields = append(fields, book.FieldBody)
+	}
+	if m.price != nil {
+		fields = append(fields, book.FieldPrice)
+	}
+	if m.thoughts != nil {
+		fields = append(fields, book.FieldThoughts)
 	}
 	return fields
 }
@@ -265,6 +366,10 @@ func (m *BookMutation) Field(name string) (ent.Value, bool) {
 		return m.Title()
 	case book.FieldBody:
 		return m.Body()
+	case book.FieldPrice:
+		return m.Price()
+	case book.FieldThoughts:
+		return m.Thoughts()
 	}
 	return nil, false
 }
@@ -278,6 +383,10 @@ func (m *BookMutation) OldField(ctx context.Context, name string) (ent.Value, er
 		return m.OldTitle(ctx)
 	case book.FieldBody:
 		return m.OldBody(ctx)
+	case book.FieldPrice:
+		return m.OldPrice(ctx)
+	case book.FieldThoughts:
+		return m.OldThoughts(ctx)
 	}
 	return nil, fmt.Errorf("unknown Book field %s", name)
 }
@@ -301,6 +410,20 @@ func (m *BookMutation) SetField(name string, value ent.Value) error {
 		}
 		m.SetBody(v)
 		return nil
+	case book.FieldPrice:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetPrice(v)
+		return nil
+	case book.FieldThoughts:
+		v, ok := value.(string)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetThoughts(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Book field %s", name)
 }
@@ -308,13 +431,21 @@ func (m *BookMutation) SetField(name string, value ent.Value) error {
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
 func (m *BookMutation) AddedFields() []string {
-	return nil
+	var fields []string
+	if m.addprice != nil {
+		fields = append(fields, book.FieldPrice)
+	}
+	return fields
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
 func (m *BookMutation) AddedField(name string) (ent.Value, bool) {
+	switch name {
+	case book.FieldPrice:
+		return m.AddedPrice()
+	}
 	return nil, false
 }
 
@@ -323,6 +454,13 @@ func (m *BookMutation) AddedField(name string) (ent.Value, bool) {
 // type.
 func (m *BookMutation) AddField(name string, value ent.Value) error {
 	switch name {
+	case book.FieldPrice:
+		v, ok := value.(int)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddPrice(v)
+		return nil
 	}
 	return fmt.Errorf("unknown Book numeric field %s", name)
 }
@@ -355,6 +493,12 @@ func (m *BookMutation) ResetField(name string) error {
 		return nil
 	case book.FieldBody:
 		m.ResetBody()
+		return nil
+	case book.FieldPrice:
+		m.ResetPrice()
+		return nil
+	case book.FieldThoughts:
+		m.ResetThoughts()
 		return nil
 	}
 	return fmt.Errorf("unknown Book field %s", name)

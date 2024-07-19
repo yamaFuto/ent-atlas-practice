@@ -31,6 +31,18 @@ func (bc *BookCreate) SetBody(s string) *BookCreate {
 	return bc
 }
 
+// SetPrice sets the "price" field.
+func (bc *BookCreate) SetPrice(i int) *BookCreate {
+	bc.mutation.SetPrice(i)
+	return bc
+}
+
+// SetThoughts sets the "thoughts" field.
+func (bc *BookCreate) SetThoughts(s string) *BookCreate {
+	bc.mutation.SetThoughts(s)
+	return bc
+}
+
 // Mutation returns the BookMutation object of the builder.
 func (bc *BookCreate) Mutation() *BookMutation {
 	return bc.mutation
@@ -81,6 +93,22 @@ func (bc *BookCreate) check() error {
 			return &ValidationError{Name: "body", err: fmt.Errorf(`ent: validator failed for field "Book.body": %w`, err)}
 		}
 	}
+	if _, ok := bc.mutation.Price(); !ok {
+		return &ValidationError{Name: "price", err: errors.New(`ent: missing required field "Book.price"`)}
+	}
+	if v, ok := bc.mutation.Price(); ok {
+		if err := book.PriceValidator(v); err != nil {
+			return &ValidationError{Name: "price", err: fmt.Errorf(`ent: validator failed for field "Book.price": %w`, err)}
+		}
+	}
+	if _, ok := bc.mutation.Thoughts(); !ok {
+		return &ValidationError{Name: "thoughts", err: errors.New(`ent: missing required field "Book.thoughts"`)}
+	}
+	if v, ok := bc.mutation.Thoughts(); ok {
+		if err := book.ThoughtsValidator(v); err != nil {
+			return &ValidationError{Name: "thoughts", err: fmt.Errorf(`ent: validator failed for field "Book.thoughts": %w`, err)}
+		}
+	}
 	return nil
 }
 
@@ -114,6 +142,14 @@ func (bc *BookCreate) createSpec() (*Book, *sqlgraph.CreateSpec) {
 	if value, ok := bc.mutation.Body(); ok {
 		_spec.SetField(book.FieldBody, field.TypeString, value)
 		_node.Body = value
+	}
+	if value, ok := bc.mutation.Price(); ok {
+		_spec.SetField(book.FieldPrice, field.TypeInt, value)
+		_node.Price = value
+	}
+	if value, ok := bc.mutation.Thoughts(); ok {
+		_spec.SetField(book.FieldThoughts, field.TypeString, value)
+		_node.Thoughts = value
 	}
 	return _node, _spec
 }

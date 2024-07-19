@@ -63,6 +63,16 @@ func Body(v string) predicate.Book {
 	return predicate.Book(sql.FieldEQ(FieldBody, v))
 }
 
+// Price applies equality check predicate on the "price" field. It's identical to PriceEQ.
+func Price(v int) predicate.Book {
+	return predicate.Book(sql.FieldEQ(FieldPrice, v))
+}
+
+// Thoughts applies equality check predicate on the "thoughts" field. It's identical to ThoughtsEQ.
+func Thoughts(v string) predicate.Book {
+	return predicate.Book(sql.FieldEQ(FieldThoughts, v))
+}
+
 // TitleEQ applies the EQ predicate on the "title" field.
 func TitleEQ(v string) predicate.Book {
 	return predicate.Book(sql.FieldEQ(FieldTitle, v))
@@ -191,6 +201,111 @@ func BodyEqualFold(v string) predicate.Book {
 // BodyContainsFold applies the ContainsFold predicate on the "body" field.
 func BodyContainsFold(v string) predicate.Book {
 	return predicate.Book(sql.FieldContainsFold(FieldBody, v))
+}
+
+// PriceEQ applies the EQ predicate on the "price" field.
+func PriceEQ(v int) predicate.Book {
+	return predicate.Book(sql.FieldEQ(FieldPrice, v))
+}
+
+// PriceNEQ applies the NEQ predicate on the "price" field.
+func PriceNEQ(v int) predicate.Book {
+	return predicate.Book(sql.FieldNEQ(FieldPrice, v))
+}
+
+// PriceIn applies the In predicate on the "price" field.
+func PriceIn(vs ...int) predicate.Book {
+	return predicate.Book(sql.FieldIn(FieldPrice, vs...))
+}
+
+// PriceNotIn applies the NotIn predicate on the "price" field.
+func PriceNotIn(vs ...int) predicate.Book {
+	return predicate.Book(sql.FieldNotIn(FieldPrice, vs...))
+}
+
+// PriceGT applies the GT predicate on the "price" field.
+func PriceGT(v int) predicate.Book {
+	return predicate.Book(sql.FieldGT(FieldPrice, v))
+}
+
+// PriceGTE applies the GTE predicate on the "price" field.
+func PriceGTE(v int) predicate.Book {
+	return predicate.Book(sql.FieldGTE(FieldPrice, v))
+}
+
+// PriceLT applies the LT predicate on the "price" field.
+func PriceLT(v int) predicate.Book {
+	return predicate.Book(sql.FieldLT(FieldPrice, v))
+}
+
+// PriceLTE applies the LTE predicate on the "price" field.
+func PriceLTE(v int) predicate.Book {
+	return predicate.Book(sql.FieldLTE(FieldPrice, v))
+}
+
+// ThoughtsEQ applies the EQ predicate on the "thoughts" field.
+func ThoughtsEQ(v string) predicate.Book {
+	return predicate.Book(sql.FieldEQ(FieldThoughts, v))
+}
+
+// ThoughtsNEQ applies the NEQ predicate on the "thoughts" field.
+func ThoughtsNEQ(v string) predicate.Book {
+	return predicate.Book(sql.FieldNEQ(FieldThoughts, v))
+}
+
+// ThoughtsIn applies the In predicate on the "thoughts" field.
+func ThoughtsIn(vs ...string) predicate.Book {
+	return predicate.Book(sql.FieldIn(FieldThoughts, vs...))
+}
+
+// ThoughtsNotIn applies the NotIn predicate on the "thoughts" field.
+func ThoughtsNotIn(vs ...string) predicate.Book {
+	return predicate.Book(sql.FieldNotIn(FieldThoughts, vs...))
+}
+
+// ThoughtsGT applies the GT predicate on the "thoughts" field.
+func ThoughtsGT(v string) predicate.Book {
+	return predicate.Book(sql.FieldGT(FieldThoughts, v))
+}
+
+// ThoughtsGTE applies the GTE predicate on the "thoughts" field.
+func ThoughtsGTE(v string) predicate.Book {
+	return predicate.Book(sql.FieldGTE(FieldThoughts, v))
+}
+
+// ThoughtsLT applies the LT predicate on the "thoughts" field.
+func ThoughtsLT(v string) predicate.Book {
+	return predicate.Book(sql.FieldLT(FieldThoughts, v))
+}
+
+// ThoughtsLTE applies the LTE predicate on the "thoughts" field.
+func ThoughtsLTE(v string) predicate.Book {
+	return predicate.Book(sql.FieldLTE(FieldThoughts, v))
+}
+
+// ThoughtsContains applies the Contains predicate on the "thoughts" field.
+func ThoughtsContains(v string) predicate.Book {
+	return predicate.Book(sql.FieldContains(FieldThoughts, v))
+}
+
+// ThoughtsHasPrefix applies the HasPrefix predicate on the "thoughts" field.
+func ThoughtsHasPrefix(v string) predicate.Book {
+	return predicate.Book(sql.FieldHasPrefix(FieldThoughts, v))
+}
+
+// ThoughtsHasSuffix applies the HasSuffix predicate on the "thoughts" field.
+func ThoughtsHasSuffix(v string) predicate.Book {
+	return predicate.Book(sql.FieldHasSuffix(FieldThoughts, v))
+}
+
+// ThoughtsEqualFold applies the EqualFold predicate on the "thoughts" field.
+func ThoughtsEqualFold(v string) predicate.Book {
+	return predicate.Book(sql.FieldEqualFold(FieldThoughts, v))
+}
+
+// ThoughtsContainsFold applies the ContainsFold predicate on the "thoughts" field.
+func ThoughtsContainsFold(v string) predicate.Book {
+	return predicate.Book(sql.FieldContainsFold(FieldThoughts, v))
 }
 
 // And groups predicates with the AND operator between them.

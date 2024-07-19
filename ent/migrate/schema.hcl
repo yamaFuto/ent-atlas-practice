@@ -49,6 +49,14 @@ table "books" {
     null = true
     type = text
   }
+  column "price" {
+    null = true
+    type = int
+  }
+  column "thoughts" {
+    null = true
+    type = text
+  }
   primary_key {
     columns = [column.id]
   }

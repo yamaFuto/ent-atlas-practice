@@ -13,6 +13,8 @@ var (
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "title", Type: field.TypeString, Size: 100},
 		{Name: "body", Type: field.TypeString, Size: 2147483647},
+		{Name: "price", Type: field.TypeInt},
+		{Name: "thoughts", Type: field.TypeString, Size: 2147483647},
 	}
 	// BooksTable holds the schema information for the "books" table.
 	BooksTable = &schema.Table{
