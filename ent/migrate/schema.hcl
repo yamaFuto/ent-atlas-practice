@@ -61,10 +61,10 @@ table "posts" {
 
   column "content" {
     null = false
-    type = text
+    type = character_varying
   }
 
-  column "user_id" {
+  column "user_posts" {
     null = true
     type = bigint
   }
@@ -73,8 +73,8 @@ table "posts" {
     columns = [column.id]
   }
 
-  foreign_key "posts_user_id_fkey" {
-    columns     = [column.user_id]
+  foreign_key "posts_users_posts" {
+    columns     = [column.user_posts]
     ref_columns = [table.users.column.id]
     on_delete   = SET_NULL
   }
@@ -92,22 +92,22 @@ table "books" {
   }
 
   column "title" {
-    null = true
+    null = false
     type = character_varying
   }
 
   column "body" {
-    null = true
+    null = false
     type = text
   }
 
   column "price" {
-    null = true
-    type = integer
+    null = false
+    type = int8
   }
 
   column "thoughts" {
-    null = true
+    null = false
     type = text
   }
 
