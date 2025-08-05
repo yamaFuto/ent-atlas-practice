@@ -5,6 +5,7 @@ package ent
 import (
 	"context"
 	"ent-atlas-test/ent/book"
+	"ent-atlas-test/ent/post"
 	"ent-atlas-test/ent/user"
 	"errors"
 	"fmt"
@@ -75,6 +76,7 @@ func checkColumn(table, column string) error {
 	initCheck.Do(func() {
 		columnCheck = sql.NewColumnCheck(map[string]func(string) bool{
 			book.Table: book.ValidColumn,
+			post.Table: post.ValidColumn,
 			user.Table: user.ValidColumn,
 		})
 	})

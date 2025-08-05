@@ -57,6 +57,18 @@ func main() {
 	}
 	log.Printf("user was created: %v", user)
 
+	// Create a new post for the user
+	post, err := ent_client.Post.
+		Create().
+		SetTitle("First Post").
+		SetContent("This is a post written by the user.").
+		SetUser(user). // Userに紐づける（user_posts フィールドに）
+		Save(ctx)
+	if err != nil {
+		log.Fatalf("failed creating post: %v", err)
+	}
+	log.Printf("post was created: %v", post)
+
 	// Create a new book
 	book, err := ent_client.Book.
 		Create().

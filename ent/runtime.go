@@ -4,6 +4,7 @@ package ent
 
 import (
 	"ent-atlas-test/ent/book"
+	"ent-atlas-test/ent/post"
 	"ent-atlas-test/ent/schema"
 	"ent-atlas-test/ent/user"
 )
@@ -44,6 +45,30 @@ func init() {
 	bookDescThoughts := bookFields[3].Descriptor()
 	// book.ThoughtsValidator is a validator for the "thoughts" field. It is called by the builders before save.
 	book.ThoughtsValidator = bookDescThoughts.Validators[0].(func(string) error)
+	postFields := schema.Post{}.Fields()
+	_ = postFields
+	// postDescTitle is the schema descriptor for title field.
+	postDescTitle := postFields[0].Descriptor()
+	// post.TitleValidator is a validator for the "title" field. It is called by the builders before save.
+	post.TitleValidator = func() func(string) error {
+		validators := postDescTitle.Validators
+		fns := [...]func(string) error{
+			validators[0].(func(string) error),
+			validators[1].(func(string) error),
+		}
+		return func(title string) error {
+			for _, fn := range fns {
+				if err := fn(title); err != nil {
+					return err
+				}
+			}
+			return nil
+		}
+	}()
+	// postDescContent is the schema descriptor for content field.
+	postDescContent := postFields[1].Descriptor()
+	// post.ContentValidator is a validator for the "content" field. It is called by the builders before save.
+	post.ContentValidator = postDescContent.Validators[0].(func(string) error)
 	userFields := schema.User{}.Fields()
 	_ = userFields
 	// userDescName is the schema descriptor for name field.
