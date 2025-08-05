@@ -21,3 +21,15 @@ env "dev" {
 
   src = "file://ent/migrate/schema.hcl"
 }
+
+# 段階的マイグレーションのマイグレーションファイル作成(schema.goを元に)
+# atlas migrate diff <Migration名> \
+#   --dir "file://ent/migrate/migrations" \
+#   --to "ent://ent/schema" \
+#   --dev-url "docker://postgres/15/test?search_path=public"
+
+# 段階的マイグレーションのマイグレーションファイル作成(schema.hclを元に)
+# atlas migrate diff <Migration名> --env local
+
+# DBに適用
+# atlas migrate apply --env local
